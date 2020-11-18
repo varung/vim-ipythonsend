@@ -6,11 +6,11 @@ if 'terminal_buffer' in vim.vars:
   tbuf = int(vim.vars['terminal_buffer'])
 have_buffer = len([b for b in vim.buffers if b.number == tbuf]) > 0
 if not have_buffer:
-  print("setting buffer")
+  # print("setting buffer")
   for b in vim.buffers:
     if b.options['buftype'] == b'terminal':
       vim.vars['terminal_buffer']=b.number
-      print("set g:terminal_buffer = ", b.number)
+      # print("set g:terminal_buffer = ", b.number)
 EOF
 endfunction
 
