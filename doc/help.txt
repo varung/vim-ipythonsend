@@ -1,0 +1,35 @@
+## 
+quickly send lines from vim to a terminal buffer containing ipython
+
+specifically designed to work with ipython and leverages the %cpaste to perform the line
+execution. With this plugin you can quickly iterate on code in one vim buffer and select
+lines to execute in the ipython terminal open in another buffer.
+
+quick-start:
+1. open vim
+2. :vsp
+3. :terminal ++curwin
+4. type ipython into the terminal
+5. switch to other buffer and type some python code
+6. visual select the lines of interest and type <leader>ei (i.e, \ei)
+
+This means, execute in ipython using %cpaste. The plugin automatically searches and finds
+an available terminal buffer
+
+<leader> ex will just type the selected lines into the terminal buffer as if you typed it.
+This doesn't work well in ipython because it automatically has features like indenting and
+commenting, which interfere with pre-typed multi-line code. %cpaste solves that problem.
+
+This plugin is honestly very simple. It just copies the selected lines to the clipboard,
+switches to the terminal buffer, and types %cpaste or just pastes the lines. It's just nice
+to have it all in one command.
+
+In ipython %cpaste or %paste will not store what you pasted, only the magic command
+itself. If that's a problem, you can turn on ipython's logging feature which will record
+what was actually pasted, in addition to the magic command itself. You can use that to
+reconstruct a history, and it's very useful in general since it stores timestamps as well.
+
+
+
+
+
