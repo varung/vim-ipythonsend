@@ -10,7 +10,7 @@ if not have_buffer:
   for b in vim.buffers:
     if b.options['buftype'] == b'terminal':
       vim.vars['terminal_buffer']=b.number
-      # print("set g:terminal_buffer = ", b.number)
+      print("set g:terminal_buffer = ", b.number)
 EOF
 endfunction
 
@@ -40,6 +40,7 @@ function s:exec_on_ipython(lnum1, lnum2)
   call term_sendkeys(g:terminal_buffer, "\<c-d>")
 endfunction
 
+
 function s:exec_on_term(lnum1, lnum2)
   call s:ensure_terminal_buffer()
   " joins non-blank lines and sends them to the terminal
@@ -48,8 +49,8 @@ function s:exec_on_term(lnum1, lnum2)
 endfunction
 
 command! -range ExecOnIpython call s:exec_on_ipython(<line1>, <line2>)
-nnoremap <leader>ei :ExecOnIpython<cr>
-vnoremap <leader>ei :ExecOnIpython<cr>
+" nnoremap <leader>ei :ExecOnIpython<cr>
+" vnoremap <leader>ei :ExecOnIpython<cr>
 
 command! -range ExecOnTerm call s:exec_on_term(<line1>, <line2>)
 nnoremap <leader>ex :ExecOnTerm<cr>
@@ -58,3 +59,16 @@ vnoremap <leader>ex :ExecOnTerm<cr>
 " executes cell in terminal by finding previous ## and next ## and sending
 " that content to terminal
 nnoremap <leader>ec ?##<cr>v/##<cr>:ExecOnTerm<cr><C-o><C-o>
+
+
+function SendPaste()
+  call s:ensure_terminal_buffer()
+  call term_sendkeys(g:terminal_buffer, "%paste\<cr>")
+endfunction
+
+" new version that uses clipboard buffer to yank text and send it to ipython
+" using %paste 
+nmap <leader>em [mv]M"+y:call SendPaste()<cr><C-o><C-o>
+vmap <leader>ep "+y:call SendPaste()<cr>
+nmap <leader>ep "+yy:call SendPaste()<cr>
+
